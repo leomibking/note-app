@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@note-app/shared": ["libs/shared/src/index.ts"]
+      "@note-app/shared": ["libs/shared/src/index.ts"],
+      "@note-app/framework": ["libs/framework/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

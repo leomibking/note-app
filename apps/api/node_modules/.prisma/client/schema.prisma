@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Note {
+  id      String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  title   String
+  content String
+  tags    NoteTag[]
+
+  @@map("note")
+}
+
+model Tag {
+  id    String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  label String    @unique
+  notes NoteTag[]
+
+  @@map("tag")
+}
+
+model NoteTag {
+  noteId String @map("note_id") @db.Uuid
+  tagId  String @map("tag_id") @db.Uuid
+  note   Note   @relation(fields: [noteId], references: [id])
+  tag    Tag    @relation(fields: [tagId], references: [id])
+
+  @@id([noteId, tagId])
+  @@map("note_tag")
+}
