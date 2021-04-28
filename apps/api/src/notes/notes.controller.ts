@@ -1,5 +1,6 @@
+import { Prisma } from '.prisma/client';
 import { Note } from '.prisma/client';
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { PrismaService } from '../../../../libs/framework/src/modules/prisma/prisma.service';
 import { INote } from './notes.interfaces';
 
@@ -8,8 +9,23 @@ export class NotesController {
   constructor(private readonly prismaService: PrismaService) {}
 
   @Get()
-  async findAll(): Promise<Note[]> {
-    return this.prismaService.note.findMany({ include: { tags: { include: { tag: true } } } });
+  async findAll(
+    @Query('title') title: string,
+    @Query('label') label: string,
+    @Query('order') order: string,
+  ): Promise<[number, Note[]]> {
+    const where: Prisma.NoteWhereInput = {
+      title: { contains: title, mode: 'insensitive' },
+      tags: { some: { tag: { label: { contains: label, mode: 'insensitive' } } } },
+    };
+    const orderBy: Prisma.NoteOrderByInput = {};
+    const count = await this.prismaService.note.count({ where });
+    const data = await this.prismaService.note.findMany({
+      where,
+      orderBy,
+      include: { tags: { include: { tag: true } } },
+    });
+    return [count, data];
   }
 
   @Post()
