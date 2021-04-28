@@ -1,11 +1,9 @@
-import { LogService, TypeErrorExceptionFilter } from '@note-app/framework';
 import { Logger, ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { environment } from './environments/environment';
-import * as helmet from 'helmet';
 import { ConfigService } from '@nestjs/config';
-// const helmet = require('helmet');
+import { NestFactory } from '@nestjs/core';
+import { LogService, TypeErrorExceptionFilter } from '@note-app/framework';
+import * as helmet from 'helmet';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
