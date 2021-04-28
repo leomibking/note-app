@@ -1,0 +1,27 @@
+{
+  "dev": {
+    "driver": "pg",
+    "host": "localhost",
+    "port": 5441,
+    "database": "noteapp",
+    "user": "noteapp",
+    "password": "noteapp"
+  },
+  "homolog": {
+    "driver": "pg",
+    "host": { "ENV": "DB_HOST" },
+    "port": { "ENV": "DB_PORT" },
+    "database": "noteapp",
+    "user": "noteapp",
+    "password": "noteapp"
+  },
+  "prod": {
+    "driver": "pg",
+    "host": { "ENV": "DB_HOST" },
+    "port": 5432,
+    "database": { "ENV": "DB_DATABASE" },
+    "user": { "ENV": "DB_USER" },
+    "password": { "ENV": "DB_PASSWORD" }
+  },
+  "sql-file": true
+}
